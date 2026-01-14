@@ -1,0 +1,513 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0861A33CDD4AC046F5CBAE77 /* DropZoneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3B067DA9E6F2FDD20125C8 /* DropZoneManager.swift */; };
+		23A30FD4729282F90CEB02FF /* PocketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DACD7D30B351502E9931906 /* PocketItem.swift */; };
+		2873D0CDC340C054CEB98843 /* PocketTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F846EC8555C83206BEB4269 /* PocketTask.swift */; };
+		29D3AEDD181EF1D83F5DF1C0 /* VoiceWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398AB550EAAB6986EB4B08F0 /* VoiceWaveformView.swift */; };
+		37DE2DA812981BEB19956D08 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288A262B33961D432F0EB930 /* AudioManager.swift */; };
+		56AA60CA6A48B00450286107 /* PocketItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09E1235FD9AFD11A2470372 /* PocketItemView.swift */; };
+		56F3BEF7601D325C30A04234 /* PlatformSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6ABA9ED8F10F52935F09B38 /* PlatformSupport.swift */; };
+		61417835A479A20DFCDCD0DC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABCD446DF2343497E87B350 /* ContentView.swift */; };
+		9F1B9EE727B054FD7813B889 /* HaloEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B208950DAEFC23F9374F7A /* HaloEffectView.swift */; };
+		A3F483BA8F87CD81FF474590 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6311752D437DB83A3C878812 /* Intent.swift */; };
+		A57AFE4D081F9C61F671E382 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DA685D7AD30022FBDDA82F /* ToastView.swift */; };
+		AF76BCFD3326C349535BE9F1 /* PocketApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F96FC9448F4C8EF52BBF2C1 /* PocketApp.swift */; };
+		B99A88720755EE84E888C0E8 /* VoiceIntentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE559DB78EFEA7E3624B4E8 /* VoiceIntentManager.swift */; };
+		CB35C9A5A3BE89B36ACFC709 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55718B82190FEB79F353354 /* FileService.swift */; };
+		D21B3D1754B39F0A901C1CB7 /* GroqService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F366E21A802574EFB1989E0 /* GroqService.swift */; };
+		D2D50377BE555EAFB37690B1 /* AnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1628BCD98E82DB275EB0E2FD /* AnimationConstants.swift */; };
+		D965BF005ADE5889ED62BC6F /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F12A7E0556D1B8893F28DF /* HapticsManager.swift */; };
+		E00EA189A2CAB20A6D9F3409 /* IntentParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8A39E4536382E226F4DACF /* IntentParser.swift */; };
+		EFB798F1B77CE626F6C7DBB0 /* DynamicIslandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5EE33D0B0AA33B1EA805CE /* DynamicIslandView.swift */; };
+		FBA2045D2EC81E7F82A20EC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15FDC529B203BA3A423B36B2 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		04DA685D7AD30022FBDDA82F /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		0ABCD446DF2343497E87B350 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0DACD7D30B351502E9931906 /* PocketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketItem.swift; sourceTree = "<group>"; };
+		0EE559DB78EFEA7E3624B4E8 /* VoiceIntentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceIntentManager.swift; sourceTree = "<group>"; };
+		0F96FC9448F4C8EF52BBF2C1 /* PocketApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketApp.swift; sourceTree = "<group>"; };
+		15FDC529B203BA3A423B36B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1628BCD98E82DB275EB0E2FD /* AnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationConstants.swift; sourceTree = "<group>"; };
+		1E5EE33D0B0AA33B1EA805CE /* DynamicIslandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicIslandView.swift; sourceTree = "<group>"; };
+		288A262B33961D432F0EB930 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		36F12A7E0556D1B8893F28DF /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
+		398AB550EAAB6986EB4B08F0 /* VoiceWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceWaveformView.swift; sourceTree = "<group>"; };
+		39B208950DAEFC23F9374F7A /* HaloEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaloEffectView.swift; sourceTree = "<group>"; };
+		3E8A39E4536382E226F4DACF /* IntentParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentParser.swift; sourceTree = "<group>"; };
+		5F366E21A802574EFB1989E0 /* GroqService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroqService.swift; sourceTree = "<group>"; };
+		6311752D437DB83A3C878812 /* Intent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
+		8E3B067DA9E6F2FDD20125C8 /* DropZoneManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropZoneManager.swift; sourceTree = "<group>"; };
+		9F846EC8555C83206BEB4269 /* PocketTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketTask.swift; sourceTree = "<group>"; };
+		A55718B82190FEB79F353354 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
+		B6ABA9ED8F10F52935F09B38 /* PlatformSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformSupport.swift; sourceTree = "<group>"; };
+		C09E1235FD9AFD11A2470372 /* PocketItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketItemView.swift; sourceTree = "<group>"; };
+		CA966374AECD28ED10BE0AFB /* Pocket.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pocket.entitlements; sourceTree = "<group>"; };
+		EF248AD34F385ED9F2F09847 /* Pocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6F7D85C9BE8F274CE44645A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1B9B5A6FC7576ED9274413CD /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1628BCD98E82DB275EB0E2FD /* AnimationConstants.swift */,
+				288A262B33961D432F0EB930 /* AudioManager.swift */,
+				36F12A7E0556D1B8893F28DF /* HapticsManager.swift */,
+				B6ABA9ED8F10F52935F09B38 /* PlatformSupport.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		1FE77EAD9258CB7577301A51 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C09E1235FD9AFD11A2470372 /* PocketItemView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		25344DB46D3AED139C2774ED /* FileOperations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FileOperations;
+			sourceTree = "<group>";
+		};
+		2EBDA4F4156C853EF94D50B6 /* VoiceIntent */ = {
+			isa = PBXGroup;
+			children = (
+				0EE559DB78EFEA7E3624B4E8 /* VoiceIntentManager.swift */,
+			);
+			path = VoiceIntent;
+			sourceTree = "<group>";
+		};
+		3910DDBE977BDDC88F136BE2 /* DropZone */ = {
+			isa = PBXGroup;
+			children = (
+				8E3B067DA9E6F2FDD20125C8 /* DropZoneManager.swift */,
+			);
+			path = DropZone;
+			sourceTree = "<group>";
+		};
+		40281028D09D31DDDD7D4879 /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				39B208950DAEFC23F9374F7A /* HaloEffectView.swift */,
+				04DA685D7AD30022FBDDA82F /* ToastView.swift */,
+				398AB550EAAB6986EB4B08F0 /* VoiceWaveformView.swift */,
+			);
+			path = Effects;
+			sourceTree = "<group>";
+		};
+		5558A5BD0407493E01DA3B39 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				0ABCD446DF2343497E87B350 /* ContentView.swift */,
+				0F96FC9448F4C8EF52BBF2C1 /* PocketApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		5B26AB48C653F61E4DAD58CC /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A55718B82190FEB79F353354 /* FileService.swift */,
+				5F366E21A802574EFB1989E0 /* GroqService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		6077BEA5D7BB45CB2129D29B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6311752D437DB83A3C878812 /* Intent.swift */,
+				0DACD7D30B351502E9931906 /* PocketItem.swift */,
+				9F846EC8555C83206BEB4269 /* PocketTask.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		607A670420CC3498C2646DF8 = {
+			isa = PBXGroup;
+			children = (
+				B9D64B6D43F56D4068057128 /* Pocket */,
+				A430CAFE8668FE5A45126734 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		71A5990211EE0500D10D9039 /* IntentParser */ = {
+			isa = PBXGroup;
+			children = (
+				3E8A39E4536382E226F4DACF /* IntentParser.swift */,
+			);
+			path = IntentParser;
+			sourceTree = "<group>";
+		};
+		A430CAFE8668FE5A45126734 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EF248AD34F385ED9F2F09847 /* Pocket.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B9D64B6D43F56D4068057128 /* Pocket */ = {
+			isa = PBXGroup;
+			children = (
+				5558A5BD0407493E01DA3B39 /* App */,
+				6077BEA5D7BB45CB2129D29B /* Models */,
+				F82AF38150D6833637CCF348 /* Modules */,
+				F602ADCFD6B723F5B7EB2017 /* Resources */,
+				5B26AB48C653F61E4DAD58CC /* Services */,
+				1B9B5A6FC7576ED9274413CD /* Utilities */,
+				DF10C8A103213BBF26B162AD /* Views */,
+				F6F7D85C9BE8F274CE44645A /* Info.plist */,
+				CA966374AECD28ED10BE0AFB /* Pocket.entitlements */,
+			);
+			path = Pocket;
+			sourceTree = "<group>";
+		};
+		D25450B61CE3DC0A10E617E9 /* DynamicIsland */ = {
+			isa = PBXGroup;
+			children = (
+				1E5EE33D0B0AA33B1EA805CE /* DynamicIslandView.swift */,
+			);
+			path = DynamicIsland;
+			sourceTree = "<group>";
+		};
+		DF10C8A103213BBF26B162AD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1FE77EAD9258CB7577301A51 /* Components */,
+				D25450B61CE3DC0A10E617E9 /* DynamicIsland */,
+				40281028D09D31DDDD7D4879 /* Effects */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F602ADCFD6B723F5B7EB2017 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				15FDC529B203BA3A423B36B2 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F82AF38150D6833637CCF348 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				3910DDBE977BDDC88F136BE2 /* DropZone */,
+				25344DB46D3AED139C2774ED /* FileOperations */,
+				71A5990211EE0500D10D9039 /* IntentParser */,
+				2EBDA4F4156C853EF94D50B6 /* VoiceIntent */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7D169845C7D92117E36B994A /* Pocket */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1635BECD4C7098F77B6F346F /* Build configuration list for PBXNativeTarget "Pocket" */;
+			buildPhases = (
+				986484B821E148423704FF3E /* Sources */,
+				6ACD7BDBCBC2DBDABA7BECCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Pocket;
+			packageProductDependencies = (
+			);
+			productName = Pocket;
+			productReference = EF248AD34F385ED9F2F09847 /* Pocket.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		855A469ACAEBB91B0C801EFD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					7D169845C7D92117E36B994A = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = BBF6F3C78A2CCDE05E8C6E37 /* Build configuration list for PBXProject "Pocket" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 607A670420CC3498C2646DF8;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7D169845C7D92117E36B994A /* Pocket */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6ACD7BDBCBC2DBDABA7BECCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBA2045D2EC81E7F82A20EC3 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		986484B821E148423704FF3E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2D50377BE555EAFB37690B1 /* AnimationConstants.swift in Sources */,
+				37DE2DA812981BEB19956D08 /* AudioManager.swift in Sources */,
+				61417835A479A20DFCDCD0DC /* ContentView.swift in Sources */,
+				0861A33CDD4AC046F5CBAE77 /* DropZoneManager.swift in Sources */,
+				EFB798F1B77CE626F6C7DBB0 /* DynamicIslandView.swift in Sources */,
+				CB35C9A5A3BE89B36ACFC709 /* FileService.swift in Sources */,
+				D21B3D1754B39F0A901C1CB7 /* GroqService.swift in Sources */,
+				9F1B9EE727B054FD7813B889 /* HaloEffectView.swift in Sources */,
+				D965BF005ADE5889ED62BC6F /* HapticsManager.swift in Sources */,
+				A3F483BA8F87CD81FF474590 /* Intent.swift in Sources */,
+				E00EA189A2CAB20A6D9F3409 /* IntentParser.swift in Sources */,
+				56F3BEF7601D325C30A04234 /* PlatformSupport.swift in Sources */,
+				AF76BCFD3326C349535BE9F1 /* PocketApp.swift in Sources */,
+				23A30FD4729282F90CEB02FF /* PocketItem.swift in Sources */,
+				56AA60CA6A48B00450286107 /* PocketItemView.swift in Sources */,
+				2873D0CDC340C054CEB98843 /* PocketTask.swift in Sources */,
+				A57AFE4D081F9C61F671E382 /* ToastView.swift in Sources */,
+				B99A88720755EE84E888C0E8 /* VoiceIntentManager.swift in Sources */,
+				29D3AEDD181EF1D83F5DF1C0 /* VoiceWaveformView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		23CB6F4BE0EC8EA772CE7EFC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pocket/Pocket.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Pocket/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Pocket;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Pocket needs microphone access to listen to your voice commands.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Pocket uses speech recognition to understand your voice commands.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pocket.app;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		59EB9AA6C2FD3D0D0C804C3B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pocket/Pocket.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Pocket/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Pocket;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Pocket needs microphone access to listen to your voice commands.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Pocket uses speech recognition to understand your voice commands.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pocket.app;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5A64EBFDE65C34D9672834A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Pocket/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		708896D4884D895FE848A6C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Pocket/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1635BECD4C7098F77B6F346F /* Build configuration list for PBXNativeTarget "Pocket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23CB6F4BE0EC8EA772CE7EFC /* Debug */,
+				59EB9AA6C2FD3D0D0C804C3B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BBF6F3C78A2CCDE05E8C6E37 /* Build configuration list for PBXProject "Pocket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				708896D4884D895FE848A6C8 /* Debug */,
+				5A64EBFDE65C34D9672834A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 855A469ACAEBB91B0C801EFD /* Project object */;
+}
