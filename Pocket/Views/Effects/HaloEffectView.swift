@@ -2,9 +2,14 @@ import SwiftUI
 
 /// Breathing halo effect around the Dynamic Island
 /// Creates a subtle glow that indicates Pocket is ready to receive items
+/// 2.0: Supports synesthesia - voice-reactive color changes
 struct HaloEffectView: View {
     let isActive: Bool
     let phase: PocketState.InteractionPhase
+
+    // 2.0: Voice synesthesia input
+    var voiceHue: Double = 0.3
+    var voiceEnergy: Float = 0
 
     @State private var animationPhase: CGFloat = 0
     @State private var pulseScale: CGFloat = 1.0
@@ -20,7 +25,9 @@ struct HaloEffectView: View {
         case .engagement:
             return .green.opacity(0.5)
         case .listening:
-            return .green.opacity(0.6)  // Brighter green while listening
+            // 2.0: Synesthesia - hue driven by voice characteristics
+            return Color(hue: voiceHue, saturation: 0.7, brightness: 0.9)
+                .opacity(0.6 + Double(voiceEnergy) * 0.3)
         case .processing:
             return .blue.opacity(0.4)
         case .completion(let success):
@@ -37,11 +44,22 @@ struct HaloEffectView: View {
         case .engagement:
             return 1.5
         case .listening:
-            return 1.2  // Smooth animation while listening
+            // 2.0: Speed reactive to voice energy
+            return 1.2 - Double(voiceEnergy) * 0.5  // Faster with more energy
         case .processing:
             return 0.8  // Faster rotation during processing
         case .completion:
             return 0
+        }
+    }
+
+    // 2.0: Pulse intensity based on voice energy
+    private var pulseIntensity: CGFloat {
+        switch phase {
+        case .listening:
+            return 1.0 + CGFloat(voiceEnergy) * 0.1
+        default:
+            return 1.03
         }
     }
 
@@ -96,12 +114,12 @@ struct HaloEffectView: View {
             animationPhase = 360
         }
 
-        // Pulse animation
+        // Pulse animation - 2.0: uses pulseIntensity for voice-reactive scaling
         withAnimation(
             .easeInOut(duration: animationSpeed / 2)
             .repeatForever(autoreverses: true)
         ) {
-            pulseScale = 1.03
+            pulseScale = pulseIntensity
         }
     }
 }

@@ -25,6 +25,9 @@ struct PocketApp: App {
     @StateObject private var pocketState = PocketState()
     @StateObject private var dropZoneManager = DropZoneManager()
     @StateObject private var voiceIntentManager = VoiceIntentManager()
+    @StateObject private var intentPredictor = IntentPredictor()  // 2.0: Intent prediction
+    @StateObject private var pocketSession = PocketSession()      // 3.0: Multi-file session
+    @StateObject private var portalManager = PortalManager()      // 5.0: Cross-device portal
 
     var body: some Scene {
         WindowGroup {
@@ -32,6 +35,9 @@ struct PocketApp: App {
                 .environmentObject(pocketState)
                 .environmentObject(dropZoneManager)
                 .environmentObject(voiceIntentManager)
+                .environmentObject(intentPredictor)
+                .environmentObject(pocketSession)
+                .environmentObject(portalManager)
         }
     }
 }
@@ -128,13 +134,23 @@ final class PocketState: ObservableObject {
         activeTask = task
         currentPhase = .processing(intent.displayDescription)
 
+        // 2.0: Start heartbeat haptics during processing
+        hapticsManager.startHeartbeat()
+
         do {
             debugLog("📥 [PocketState] Executing task...")
             try await executeTask(task)
+
+            // 2.0: Stop heartbeat before completion feedback
+            hapticsManager.stopHeartbeat()
+
             currentPhase = .completion(true)
             hapticsManager.playSuccessFeedback()
             debugLog("📥 [PocketState] ✅ Task completed successfully")
         } catch {
+            // 2.0: Stop heartbeat before error feedback
+            hapticsManager.stopHeartbeat()
+
             currentPhase = .completion(false)
             hapticsManager.playErrorFeedback()
             debugLog("📥 [PocketState] ❌ Task failed: \(error)")
@@ -213,5 +229,56 @@ final class PocketState: ObservableObject {
     /// Remove item from pocket (user dragged it out)
     func removeItem(_ item: PocketItem) {
         heldItems.removeAll { $0.id == item.id }
+    }
+
+    // MARK: - 2.0: Direct Task Execution (for predictions)
+
+    /// Execute a task directly without voice input (used by prediction bubbles)
+    func executeTaskDirectly(_ task: PocketTask) async throws {
+        debugLog("⚡️ [PocketState] Direct execution: \(task.intent.action)")
+
+        switch task.intent.action {
+        case .hold:
+            debugLog("⚡️ [PocketState] HOLD: Storing item '\(task.item.name)'")
+            heldItems.append(task.item)
+            debugLog("⚡️ [PocketState] Items in pocket: \(heldItems.count)")
+
+        case .send(let target):
+            debugLog("⚡️ [PocketState] SEND: Sending '\(task.item.name)' to '\(target)'")
+            try await fileService.sendFile(task.item, to: target)
+            debugLog("⚡️ [PocketState] SEND: Complete")
+
+        case .convert(let format):
+            debugLog("⚡️ [PocketState] CONVERT: Converting '\(task.item.name)' to '\(format)'")
+            let converted = try await fileService.convertFile(task.item, to: format)
+            heldItems.append(converted)
+            debugLog("⚡️ [PocketState] CONVERT: Complete, created '\(converted.name)'")
+
+        case .extract(let operation):
+            debugLog("⚡️ [PocketState] EXTRACT: Processing '\(task.item.name)' with \(operation)")
+            let result = try await intentParser.processContent(task.item, operation: operation)
+            let resultItem = PocketItem(
+                id: UUID(),
+                type: .text,
+                data: result.data(using: .utf8) ?? Data(),
+                name: "Summary",
+                timestamp: Date()
+            )
+            heldItems.append(resultItem)
+            debugLog("⚡️ [PocketState] EXTRACT: Complete")
+
+        case .print(let copies, let options):
+            debugLog("⚡️ [PocketState] PRINT: Printing '\(task.item.name)' x\(copies)")
+            try await fileService.printFile(task.item, copies: copies, options: options)
+            debugLog("⚡️ [PocketState] PRINT: Complete")
+
+        case .airplay(let device):
+            debugLog("⚡️ [PocketState] AIRPLAY: Sending '\(task.item.name)' to '\(device)'")
+            try await fileService.airplayFile(task.item, to: device)
+            debugLog("⚡️ [PocketState] AIRPLAY: Complete")
+        }
+
+        taskHistory.append(task)
+        activeTask = nil
     }
 }

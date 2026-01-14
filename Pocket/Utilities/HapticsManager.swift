@@ -23,6 +23,10 @@ final class HapticsManager {
 
     private var coreHapticsEngine: CHHapticEngine?
     private var supportsHaptics: Bool = false
+
+    // 2.0: Heartbeat haptic player
+    private var heartbeatPlayer: CHHapticAdvancedPatternPlayer?
+    private var isHeartbeatActive: Bool = false
     #endif
 
     // MARK: - Initialization
@@ -178,4 +182,87 @@ extension HapticsManager {
         impactMedium?.impactOccurred(intensity: CGFloat(intensity.rawValue))
         #endif
     }
+}
+
+// MARK: - 2.0: Heartbeat Haptics (Processing state)
+
+extension HapticsManager {
+
+    /// Start continuous heartbeat-like haptics during processing
+    func startHeartbeat() {
+        #if os(iOS)
+        guard supportsHaptics, let engine = coreHapticsEngine else { return }
+        guard !isHeartbeatActive else { return }
+
+        isHeartbeatActive = true
+
+        do {
+            let pattern = try createHeartbeatPattern()
+            heartbeatPlayer = try engine.makeAdvancedPlayer(with: pattern)
+            heartbeatPlayer?.loopEnabled = true
+
+            try heartbeatPlayer?.start(atTime: CHHapticTimeImmediate)
+            print("💓 [Haptics] Heartbeat started")
+        } catch {
+            print("💓 [Haptics] Failed to start heartbeat: \(error)")
+        }
+        #endif
+    }
+
+    /// Stop heartbeat haptics
+    func stopHeartbeat() {
+        #if os(iOS)
+        guard isHeartbeatActive else { return }
+
+        do {
+            try heartbeatPlayer?.stop(atTime: CHHapticTimeImmediate)
+            heartbeatPlayer = nil
+            isHeartbeatActive = false
+            print("💓 [Haptics] Heartbeat stopped")
+        } catch {
+            print("💓 [Haptics] Failed to stop heartbeat: \(error)")
+        }
+        #endif
+    }
+
+    #if os(iOS)
+    /// Create a heartbeat pattern: lub-DUB ... lub-DUB
+    private func createHeartbeatPattern() throws -> CHHapticPattern {
+        // Heartbeat timing constants
+        let beatDuration: TimeInterval = 0.08
+        let interBeatGap: TimeInterval = 0.12
+        let cyclePause: TimeInterval = 0.7
+
+        var events: [CHHapticEvent] = []
+
+        // "Lub" - first beat (softer)
+        events.append(CHHapticEvent(
+            eventType: .hapticTransient,
+            parameters: [
+                CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.4),
+                CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.3)
+            ],
+            relativeTime: 0
+        ))
+
+        // "DUB" - second beat (stronger)
+        events.append(CHHapticEvent(
+            eventType: .hapticTransient,
+            parameters: [
+                CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.7),
+                CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.5)
+            ],
+            relativeTime: beatDuration + interBeatGap
+        ))
+
+        // Pattern length for looping
+        let patternLength = beatDuration + interBeatGap + beatDuration + cyclePause
+
+        return try CHHapticPattern(
+            events: events,
+            parameterCurves: [],
+            duration: patternLength
+        )
+    }
+    #endif
 }

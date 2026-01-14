@@ -44,12 +44,43 @@ final class VoiceIntentManager: ObservableObject {
     @Published var isTranscribing = false
     @Published var error: VoiceIntentError?
 
+    // 2.0: Synesthesia - Audio-reactive properties
+    @Published var voiceHue: Double = 0.3          // 0-1, maps to color wheel (0.3 = green)
+    @Published var voiceEnergy: Float = 0          // 0-1, overall voice energy
+    @Published var voiceEmotion: VoiceEmotion = .neutral  // Inferred emotion from voice
+
+    enum VoiceEmotion {
+        case neutral   // Default, green
+        case excited   // High energy, warm colors (orange/red)
+        case calm      // Low energy, cool colors (blue/purple)
+        case urgent    // Rapid changes, yellow
+    }
+
     // MARK: - Private Properties
 
     private let groqService: GroqService
     private var audioRecorder: AVAudioRecorder?
     private var recordingURL: URL?
     private var levelTimer: Timer?
+
+    // 2.0: VAD (Voice Activity Detection) properties
+    private var vadTimer: Timer?
+    private var silenceStartTime: Date?
+    private var hasDetectedSpeech: Bool = false
+    private var onSilenceDetected: (() -> Void)?
+
+    // VAD Configuration
+    private let silenceThreshold: Float = 0.05        // Audio level below this = silence
+    private let silenceDuration: TimeInterval = 1.2   // Seconds of silence to trigger stop
+    private let maxRecordingDuration: TimeInterval = 10.0  // Maximum recording time
+    private let minSpeechDuration: TimeInterval = 0.5 // Minimum speech before allowing silence detection
+
+    // 2.0: Synesthesia analysis properties
+    private var audioLevelHistory: [Float] = []
+    private let synesthesiaHistorySize: Int = 20
+    private var peakLevel: Float = 0
+    private var levelChangeRate: Float = 0
+    private var lastLevel: Float = 0
 
     // MARK: - Initialization
 
@@ -115,6 +146,177 @@ final class VoiceIntentManager: ObservableObject {
             logger.error("🎤 Failed to start recording: \(error.localizedDescription)")
             self.error = .audioEngineError(error)
         }
+    }
+
+    // MARK: - 2.0: VAD-Enabled Listening
+
+    /// Start listening with Voice Activity Detection - auto-stops when user finishes speaking
+    func startListeningWithVAD(onComplete: @escaping () -> Void) {
+        debugLog("🎤 startListeningWithVAD() called")
+
+        guard !isListening else {
+            debugLog("🎤 Already listening, returning")
+            return
+        }
+
+        currentTranscription = nil
+        partialTranscription = ""
+        error = nil
+        hasDetectedSpeech = false
+        silenceStartTime = nil
+        onSilenceDetected = onComplete
+
+        do {
+            try startRecording()
+            isListening = true
+            startVADMonitoring()
+            debugLog("🎤 VAD recording started successfully")
+            logger.info("🎤 VAD recording started")
+        } catch {
+            debugLog("🎤 Failed to start VAD recording: \(error.localizedDescription)")
+            self.error = .audioEngineError(error)
+        }
+    }
+
+    /// Start VAD monitoring timer
+    private func startVADMonitoring() {
+        let startTime = Date()
+
+        vadTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                self?.checkVAD(recordingStartTime: startTime)
+            }
+        }
+    }
+
+    /// Check voice activity and auto-stop if silence detected
+    private func checkVAD(recordingStartTime: Date) {
+        guard let recorder = audioRecorder, recorder.isRecording else { return }
+
+        recorder.updateMeters()
+        let level = recorder.averagePower(forChannel: 0)
+        let linearLevel = pow(10, level / 20)
+        audioLevel = min(1.0, max(0.0, linearLevel * 2))
+
+        // 2.0: Update synesthesia properties
+        updateSynesthesia(level: audioLevel)
+
+        let recordingDuration = Date().timeIntervalSince(recordingStartTime)
+
+        // Check max recording time
+        if recordingDuration >= maxRecordingDuration {
+            debugLog("🎤 VAD: Max recording time reached (\(maxRecordingDuration)s)")
+            triggerVADStop()
+            return
+        }
+
+        // Detect speech
+        if audioLevel > silenceThreshold {
+            hasDetectedSpeech = true
+            silenceStartTime = nil
+            partialTranscription = "Listening..."
+        } else if hasDetectedSpeech {
+            // We've heard speech, now detect silence
+            if silenceStartTime == nil {
+                silenceStartTime = Date()
+            } else if let silenceStart = silenceStartTime {
+                let silenceDurationNow = Date().timeIntervalSince(silenceStart)
+
+                if silenceDurationNow >= silenceDuration {
+                    debugLog("🎤 VAD: Silence detected for \(String(format: "%.1f", silenceDurationNow))s, stopping...")
+                    triggerVADStop()
+                }
+            }
+        }
+    }
+
+    // MARK: - 2.0: Synesthesia Analysis
+
+    /// Update synesthesia properties based on current audio level
+    private func updateSynesthesia(level: Float) {
+        // Track level history
+        audioLevelHistory.append(level)
+        if audioLevelHistory.count > synesthesiaHistorySize {
+            audioLevelHistory.removeFirst()
+        }
+
+        // Track peak level
+        if level > peakLevel {
+            peakLevel = level
+        }
+
+        // Calculate change rate (how rapidly the level is changing)
+        levelChangeRate = abs(level - lastLevel)
+        lastLevel = level
+
+        // Calculate average energy
+        let avgLevel = audioLevelHistory.reduce(0, +) / Float(max(1, audioLevelHistory.count))
+        voiceEnergy = avgLevel
+
+        // Determine emotion and hue based on audio characteristics
+        updateVoiceEmotionAndHue(avgLevel: avgLevel, peakLevel: peakLevel, changeRate: levelChangeRate)
+    }
+
+    /// Map audio characteristics to emotion and color
+    private func updateVoiceEmotionAndHue(avgLevel: Float, peakLevel: Float, changeRate: Float) {
+        // Classify emotion based on audio characteristics
+        if changeRate > 0.3 {
+            // Rapid changes = urgent (yellow, hue ~0.15)
+            voiceEmotion = .urgent
+            voiceHue = 0.15
+        } else if avgLevel > 0.4 || peakLevel > 0.7 {
+            // High energy = excited (orange/red, hue ~0.05-0.1)
+            voiceEmotion = .excited
+            voiceHue = 0.05 + Double(avgLevel) * 0.1
+        } else if avgLevel < 0.15 && avgLevel > 0.02 {
+            // Low steady energy = calm (blue/purple, hue ~0.6-0.7)
+            voiceEmotion = .calm
+            voiceHue = 0.6 + Double(avgLevel) * 0.5
+        } else {
+            // Neutral speaking (green, hue ~0.3)
+            voiceEmotion = .neutral
+            voiceHue = 0.3
+        }
+    }
+
+    /// Reset synesthesia state
+    private func resetSynesthesia() {
+        audioLevelHistory.removeAll()
+        peakLevel = 0
+        levelChangeRate = 0
+        lastLevel = 0
+        voiceHue = 0.3
+        voiceEnergy = 0
+        voiceEmotion = .neutral
+    }
+
+    /// Trigger stop from VAD detection
+    private func triggerVADStop() {
+        vadTimer?.invalidate()
+        vadTimer = nil
+        silenceStartTime = nil
+
+        stopRecording()
+        isListening = false
+
+        debugLog("🎤 VAD: Recording stopped, transcribing...")
+
+        Task {
+            await transcribeRecording()
+
+            // Notify completion
+            await MainActor.run {
+                onSilenceDetected?()
+                onSilenceDetected = nil
+            }
+        }
+    }
+
+    private func stopVADMonitoring() {
+        vadTimer?.invalidate()
+        vadTimer = nil
+        silenceStartTime = nil
+        hasDetectedSpeech = false
     }
 
     func stopListening() {

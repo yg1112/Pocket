@@ -9,10 +9,18 @@ struct DynamicIslandView: View {
     @EnvironmentObject var pocketState: PocketState
     @EnvironmentObject var dropZoneManager: DropZoneManager
     @EnvironmentObject var voiceIntentManager: VoiceIntentManager
+    @EnvironmentObject var intentPredictor: IntentPredictor  // 2.0: Intent prediction
+    @EnvironmentObject var pocketSession: PocketSession      // 3.0: Multi-file session
+    @EnvironmentObject var portalManager: PortalManager      // 5.0: Cross-device portal
 
     @State private var isHovering = false
     @State private var haloOpacity: Double = 0
     @State private var islandScale: CGFloat = 1.0
+    @State private var previousPhase: PocketState.InteractionPhase = .idle
+
+    // 2.0: Metaball effect states
+    @State private var dragProximity: CGFloat = 0
+    @State private var showGooeyEffect: Bool = false
 
     // MARK: - Layout Constants
 
@@ -28,21 +36,32 @@ struct DynamicIslandView: View {
     // MARK: - Animation Constants
 
     private enum Animation {
-        static let morphing = SwiftUI.Animation.spring(response: 0.5, dampingFraction: 0.7)
+        // 2.0: Differentiated animations - open is eager, close is settled
+        static let expand = SwiftUI.Animation.spring(response: 0.35, dampingFraction: 0.6, blendDuration: 0.1)  // Fast, bouncy - eager to receive
+        static let collapse = SwiftUI.Animation.spring(response: 0.55, dampingFraction: 0.85, blendDuration: 0.1)  // Slow, heavy - satisfied and settled
         static let halo = SwiftUI.Animation.easeInOut(duration: 1.2).repeatForever(autoreverses: true)
-        static let content = SwiftUI.Animation.spring(response: 0.3, dampingFraction: 0.8)
+        static let content = SwiftUI.Animation.spring(response: 0.25, dampingFraction: 0.7)  // Snappy content transitions
+        static let anticipation = SwiftUI.Animation.spring(response: 0.3, dampingFraction: 0.5)  // Eager anticipation wiggle
     }
 
     var body: some View {
         ZStack {
             // Halo effect layer (behind island)
+            // 2.0: Now with synesthesia - voice drives halo color
             if shouldShowHalo {
                 HaloEffectView(
                     isActive: isHovering,
-                    phase: pocketState.currentPhase
+                    phase: pocketState.currentPhase,
+                    voiceHue: voiceIntentManager.voiceHue,
+                    voiceEnergy: voiceIntentManager.voiceEnergy
                 )
                 .frame(width: currentWidth + Layout.haloRadius * 2,
                        height: currentHeight + Layout.haloRadius * 2)
+            }
+
+            // 2.0: Gooey metaball effect layer
+            if showGooeyEffect {
+                gooeyEffectLayer
             }
 
             // Main island container
@@ -50,11 +69,31 @@ struct DynamicIslandView: View {
                 .frame(width: currentWidth, height: currentHeight)
                 .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous))
                 .scaleEffect(islandScale)
-                .animation(Animation.morphing, value: pocketState.currentPhase)
-                .animation(Animation.morphing, value: isHovering)
+                // 2.0: Add "reaching" bulge when item approaches
+                .overlay(
+                    reachingBulge
+                        .opacity(dragProximity > 0.3 ? 1 : 0)
+                )
 
             // Drop zone overlay (invisible, handles drag & drop)
             dropZoneOverlay
+
+            // 2.0: Prediction bubbles
+            PredictionBubblesView(
+                predictor: intentPredictor,
+                onPredictionSelected: { prediction in
+                    handlePredictionSelected(prediction)
+                },
+                isVisible: intentPredictor.isShowingPredictions && pocketState.currentPhase == .anticipation
+            )
+            .offset(y: 40)  // Position below the island
+        }
+        .onChange(of: pocketState.currentPhase) { oldPhase, newPhase in
+            // 2.0: Apply directional animation based on expand/collapse
+            let isExpanding = phaseSize(newPhase) > phaseSize(oldPhase)
+            withAnimation(isExpanding ? Animation.expand : Animation.collapse) {
+                previousPhase = newPhase
+            }
         }
         .onChange(of: isHovering) { _, newValue in
             print("🎯 [DynamicIsland] isHovering changed to: \(newValue)")
@@ -63,9 +102,36 @@ struct DynamicIslandView: View {
                 print("🎯 [DynamicIsland] Triggering onDragDetected and onHoverEnter")
                 pocketState.onDragDetected()
                 pocketState.onHoverEnter()
+
+                // 2.0: Activate gooey effect
+                withAnimation(Animation.anticipation) {
+                    showGooeyEffect = true
+                    dragProximity = 0.8  // Simulate high proximity when hovering
+                }
+
+                // 2.0: Show prediction bubbles based on detected item type
+                if let detectedType = dropZoneManager.lastDetectedType {
+                    intentPredictor.predict(for: detectedType)
+                } else {
+                    intentPredictor.predict(for: .document)  // Default
+                }
+                intentPredictor.showPredictions()
             } else {
                 print("🎯 [DynamicIsland] Triggering onHoverExit")
                 pocketState.onHoverExit()
+
+                // 2.0: Deactivate gooey effect
+                withAnimation(Animation.collapse) {
+                    dragProximity = 0
+                    showGooeyEffect = false
+                }
+
+                // 2.0: Hide predictions after a delay (give time for drop)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    if !isHovering {
+                        intentPredictor.clearPredictions()
+                    }
+                }
             }
         }
     }
@@ -100,6 +166,94 @@ struct DynamicIslandView: View {
             return false
         case .anticipation, .engagement, .listening, .processing, .completion:
             return true
+        }
+    }
+
+    /// Returns a numeric size value for animation direction calculation
+    private func phaseSize(_ phase: PocketState.InteractionPhase) -> Int {
+        switch phase {
+        case .idle: return 0
+        case .anticipation: return 1
+        case .engagement: return 2
+        case .listening: return 3
+        case .processing: return 3
+        case .completion: return 2
+        }
+    }
+
+    // MARK: - 2.0 Gooey Effect Views
+
+    /// The gooey metaball effect layer that creates liquid merging illusion
+    private var gooeyEffectLayer: some View {
+        SimpleGooeyEffect(
+            islandWidth: currentWidth,
+            islandHeight: currentHeight,
+            dragOffset: CGPoint(x: 0, y: -50), // Item approaches from above
+            proximity: dragProximity,
+            isActive: showGooeyEffect
+        )
+        .allowsHitTesting(false)
+    }
+
+    /// A bulge that "reaches" toward the approaching item
+    private var reachingBulge: some View {
+        Circle()
+            .fill(
+                RadialGradient(
+                    colors: [.white.opacity(0.3), .clear],
+                    center: .center,
+                    startRadius: 0,
+                    endRadius: 20
+                )
+            )
+            .frame(width: 40 * dragProximity, height: 40 * dragProximity)
+            .offset(y: -(currentHeight / 2 + 10 * dragProximity))
+            .animation(Animation.anticipation, value: dragProximity)
+    }
+
+    // MARK: - 2.0 Prediction Handling
+
+    /// Handle when user drops on a prediction bubble - skip voice input
+    private func handlePredictionSelected(_ prediction: PredictedAction) {
+        print("🔮 [DynamicIsland] Prediction selected: \(prediction.label)")
+
+        // Clear predictions
+        intentPredictor.clearPredictions()
+
+        // Get the pending item from DropZoneManager
+        Task {
+            let items = await dropZoneManager.getLastProcessedItems()
+            guard let item = items.first else {
+                print("🔮 [DynamicIsland] No item found for prediction")
+                return
+            }
+
+            // Create intent directly from prediction (skip voice)
+            let intent = Intent(
+                action: prediction.action,
+                rawCommand: "[Predicted: \(prediction.label)]",
+                confidence: prediction.confidence
+            )
+
+            // Execute directly
+            pocketState.pendingItem = item
+            pocketState.currentPhase = .processing(intent.displayDescription)
+            pocketState.hapticsManager.playDropFeedback()
+
+            do {
+                let task = PocketTask(item: item, intent: intent)
+                pocketState.activeTask = task
+                try await pocketState.executeTaskDirectly(task)
+                pocketState.currentPhase = .completion(true)
+                pocketState.hapticsManager.playSuccessFeedback()
+            } catch {
+                pocketState.currentPhase = .completion(false)
+                pocketState.hapticsManager.playErrorFeedback()
+            }
+
+            // Reset after delay
+            try? await Task.sleep(for: .seconds(2))
+            pocketState.resetToIdle()
         }
     }
 
@@ -165,7 +319,22 @@ struct DynamicIslandView: View {
 
             Spacer()
 
-            // Pocket indicator
+            // 3.0: Session indicator (stacked items)
+            if pocketSession.isActive {
+                HStack(spacing: 4) {
+                    Image(systemName: pocketSession.state.icon)
+                        .font(.system(size: 10))
+                    Text("\(pocketSession.itemCount)")
+                        .font(.system(size: 11, weight: .bold, design: .rounded))
+                }
+                .foregroundColor(.blue)
+                .padding(.horizontal, 6)
+                .padding(.vertical, 2)
+                .background(Color.blue.opacity(0.2))
+                .clipShape(Capsule())
+            }
+
+            // Pocket indicator (held items)
             if !pocketState.heldItems.isEmpty {
                 HStack(spacing: 4) {
                     Image(systemName: "tray.fill")
@@ -175,6 +344,9 @@ struct DynamicIslandView: View {
                 }
                 .foregroundColor(.white.opacity(0.6))
             }
+
+            // 5.0: Portal button
+            PortalButtonView(portalManager: portalManager)
         }
     }
 
@@ -362,37 +534,44 @@ struct DynamicIslandView: View {
                 // Play haptic feedback
                 pocketState.onDropDetected()
 
-                // Start listening for voice command
-                print("🎤 [DynamicIsland] Starting voice listening...")
-                voiceIntentManager.startListening()
+                // 3.0: Add to session if active, or start new session
+                if pocketSession.isActive {
+                    // Add to existing session
+                    let added = pocketSession.addItems(items)
+                    print("📚 [DynamicIsland] Added \(added) items to session (total: \(pocketSession.itemCount))")
+                } else {
+                    // Start new session
+                    pocketSession.startSession(with: firstItem)
+                    for item in items.dropFirst() {
+                        _ = pocketSession.addItem(item)
+                    }
+                }
 
                 // Enter listening phase
                 pocketState.pendingItem = firstItem
                 pocketState.currentPhase = .listening
 
-                // Wait for voice input (5 seconds recording time)
-                print("🎤 [DynamicIsland] Recording for 5 seconds...")
-                try? await Task.sleep(for: .seconds(5))
+                // Clear predictions since we're now in voice mode
+                intentPredictor.clearPredictions()
 
-                // Stop recording - this triggers transcription
-                print("🎤 [DynamicIsland] Stopping recording, starting transcription...")
-                voiceIntentManager.stopListening()
+                // 2.0: Use VAD-enabled listening (auto-stops when user finishes speaking)
+                print("🎤 [DynamicIsland] Starting VAD-enabled voice listening...")
 
-                // Wait a moment for transcription task to start
-                try? await Task.sleep(for: .milliseconds(200))
+                await withCheckedContinuation { continuation in
+                    voiceIntentManager.startListeningWithVAD {
+                        continuation.resume()
+                    }
+                }
 
                 // Wait for transcription to complete
-                // Either: isTranscribing becomes false, OR currentTranscription is set
-                print("🎤 [DynamicIsland] Waiting for transcription...")
+                print("🎤 [DynamicIsland] VAD stopped, waiting for transcription...")
                 var waitCount = 0
-                let maxWait = 150 // 15 seconds max wait
+                let maxWait = 100 // 10 seconds max wait for transcription
                 while waitCount < maxWait {
-                    // Check if transcription is done
                     if !voiceIntentManager.isTranscribing && voiceIntentManager.currentTranscription != nil {
                         break
                     }
-                    // Also break if we've been waiting and isTranscribing is false (error case)
-                    if waitCount > 50 && !voiceIntentManager.isTranscribing {
+                    if waitCount > 30 && !voiceIntentManager.isTranscribing {
                         break
                     }
                     try? await Task.sleep(for: .milliseconds(100))
@@ -402,8 +581,7 @@ struct DynamicIslandView: View {
                 let voiceCommand = voiceIntentManager.currentTranscription
                 print("🎤 [DynamicIsland] ========================================")
                 print("🎤 [DynamicIsland] Voice command captured: '\(voiceCommand ?? "nil")'")
-                print("🎤 [DynamicIsland] isTranscribing: \(voiceIntentManager.isTranscribing)")
-                print("🎤 [DynamicIsland] partialTranscription: '\(voiceIntentManager.partialTranscription)'")
+                print("🎤 [DynamicIsland] VAD auto-stopped after detecting silence")
                 print("🎤 [DynamicIsland] ========================================")
 
                 // Process with voice command

@@ -12,15 +12,20 @@
 		2873D0CDC340C054CEB98843 /* PocketTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F846EC8555C83206BEB4269 /* PocketTask.swift */; };
 		29D3AEDD181EF1D83F5DF1C0 /* VoiceWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398AB550EAAB6986EB4B08F0 /* VoiceWaveformView.swift */; };
 		37DE2DA812981BEB19956D08 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288A262B33961D432F0EB930 /* AudioManager.swift */; };
+		53160B41DE9A9BAF85D7A7BE /* PredictionBubblesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298D69908DD89B722327D8D0 /* PredictionBubblesView.swift */; };
+		5656CC6511477C4ABD38F0B6 /* PortalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194DB9CD2CBC70A545AA12D /* PortalManager.swift */; };
 		56AA60CA6A48B00450286107 /* PocketItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09E1235FD9AFD11A2470372 /* PocketItemView.swift */; };
 		56F3BEF7601D325C30A04234 /* PlatformSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6ABA9ED8F10F52935F09B38 /* PlatformSupport.swift */; };
+		5D8089FC5E32096D44F4EEC8 /* PocketSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972D7FC37EDC0AF930D6DD4C /* PocketSession.swift */; };
 		61417835A479A20DFCDCD0DC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABCD446DF2343497E87B350 /* ContentView.swift */; };
+		8AD6EAA50DA8CA81DC00CD41 /* IntentPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86009AC23F762EB99367FF07 /* IntentPredictor.swift */; };
 		9F1B9EE727B054FD7813B889 /* HaloEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B208950DAEFC23F9374F7A /* HaloEffectView.swift */; };
 		A3F483BA8F87CD81FF474590 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6311752D437DB83A3C878812 /* Intent.swift */; };
 		A57AFE4D081F9C61F671E382 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DA685D7AD30022FBDDA82F /* ToastView.swift */; };
 		AF76BCFD3326C349535BE9F1 /* PocketApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F96FC9448F4C8EF52BBF2C1 /* PocketApp.swift */; };
 		B99A88720755EE84E888C0E8 /* VoiceIntentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE559DB78EFEA7E3624B4E8 /* VoiceIntentManager.swift */; };
 		CB35C9A5A3BE89B36ACFC709 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55718B82190FEB79F353354 /* FileService.swift */; };
+		CE39049BB9249AB96BC629D4 /* MetaballEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40173162EAEF6451C8BBEA /* MetaballEffectView.swift */; };
 		D21B3D1754B39F0A901C1CB7 /* GroqService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F366E21A802574EFB1989E0 /* GroqService.swift */; };
 		D2D50377BE555EAFB37690B1 /* AnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1628BCD98E82DB275EB0E2FD /* AnimationConstants.swift */; };
 		D965BF005ADE5889ED62BC6F /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F12A7E0556D1B8893F28DF /* HapticsManager.swift */; };
@@ -37,15 +42,20 @@
 		0F96FC9448F4C8EF52BBF2C1 /* PocketApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketApp.swift; sourceTree = "<group>"; };
 		15FDC529B203BA3A423B36B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1628BCD98E82DB275EB0E2FD /* AnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationConstants.swift; sourceTree = "<group>"; };
+		1C40173162EAEF6451C8BBEA /* MetaballEffectView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MetaballEffectView.swift; sourceTree = "<group>"; };
 		1E5EE33D0B0AA33B1EA805CE /* DynamicIslandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicIslandView.swift; sourceTree = "<group>"; };
 		288A262B33961D432F0EB930 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		298D69908DD89B722327D8D0 /* PredictionBubblesView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PredictionBubblesView.swift; sourceTree = "<group>"; };
 		36F12A7E0556D1B8893F28DF /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		398AB550EAAB6986EB4B08F0 /* VoiceWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceWaveformView.swift; sourceTree = "<group>"; };
 		39B208950DAEFC23F9374F7A /* HaloEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaloEffectView.swift; sourceTree = "<group>"; };
 		3E8A39E4536382E226F4DACF /* IntentParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentParser.swift; sourceTree = "<group>"; };
+		4194DB9CD2CBC70A545AA12D /* PortalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PortalManager.swift; path = PortalManager.swift; sourceTree = "<group>"; };
 		5F366E21A802574EFB1989E0 /* GroqService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroqService.swift; sourceTree = "<group>"; };
 		6311752D437DB83A3C878812 /* Intent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
+		86009AC23F762EB99367FF07 /* IntentPredictor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = IntentPredictor.swift; sourceTree = "<group>"; };
 		8E3B067DA9E6F2FDD20125C8 /* DropZoneManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropZoneManager.swift; sourceTree = "<group>"; };
+		972D7FC37EDC0AF930D6DD4C /* PocketSession.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PocketSession.swift; path = Session/PocketSession.swift; sourceTree = "<group>"; };
 		9F846EC8555C83206BEB4269 /* PocketTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketTask.swift; sourceTree = "<group>"; };
 		A55718B82190FEB79F353354 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		B6ABA9ED8F10F52935F09B38 /* PlatformSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformSupport.swift; sourceTree = "<group>"; };
@@ -67,10 +77,19 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		1DC094BBBEE27E34C24DD800 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				972D7FC37EDC0AF930D6DD4C /* PocketSession.swift */,
+			);
+			name = Session;
+			sourceTree = "<group>";
+		};
 		1FE77EAD9258CB7577301A51 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				C09E1235FD9AFD11A2470372 /* PocketItemView.swift */,
+				298D69908DD89B722327D8D0 /* PredictionBubblesView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -104,6 +123,7 @@
 				39B208950DAEFC23F9374F7A /* HaloEffectView.swift */,
 				04DA685D7AD30022FBDDA82F /* ToastView.swift */,
 				398AB550EAAB6986EB4B08F0 /* VoiceWaveformView.swift */,
+				1C40173162EAEF6451C8BBEA /* MetaballEffectView.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -144,10 +164,20 @@
 			);
 			sourceTree = "<group>";
 		};
+		6A74556B78C9C476E0805367 /* Portal */ = {
+			isa = PBXGroup;
+			children = (
+				4194DB9CD2CBC70A545AA12D /* PortalManager.swift */,
+			);
+			name = Portal;
+			path = Portal;
+			sourceTree = "<group>";
+		};
 		71A5990211EE0500D10D9039 /* IntentParser */ = {
 			isa = PBXGroup;
 			children = (
 				3E8A39E4536382E226F4DACF /* IntentParser.swift */,
+				86009AC23F762EB99367FF07 /* IntentPredictor.swift */,
 			);
 			path = IntentParser;
 			sourceTree = "<group>";
@@ -209,6 +239,8 @@
 				25344DB46D3AED139C2774ED /* FileOperations */,
 				71A5990211EE0500D10D9039 /* IntentParser */,
 				2EBDA4F4156C853EF94D50B6 /* VoiceIntent */,
+				1DC094BBBEE27E34C24DD800 /* Session */,
+				6A74556B78C9C476E0805367 /* Portal */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -228,8 +260,6 @@
 			dependencies = (
 			);
 			name = Pocket;
-			packageProductDependencies = (
-			);
 			productName = Pocket;
 			productReference = EF248AD34F385ED9F2F09847 /* Pocket.app */;
 			productType = "com.apple.product-type.application";
@@ -260,6 +290,7 @@
 			mainGroup = 607A670420CC3498C2646DF8;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = A430CAFE8668FE5A45126734 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -303,6 +334,11 @@
 				A57AFE4D081F9C61F671E382 /* ToastView.swift in Sources */,
 				B99A88720755EE84E888C0E8 /* VoiceIntentManager.swift in Sources */,
 				29D3AEDD181EF1D83F5DF1C0 /* VoiceWaveformView.swift in Sources */,
+				8AD6EAA50DA8CA81DC00CD41 /* IntentPredictor.swift in Sources */,
+				53160B41DE9A9BAF85D7A7BE /* PredictionBubblesView.swift in Sources */,
+				CE39049BB9249AB96BC629D4 /* MetaballEffectView.swift in Sources */,
+				5D8089FC5E32096D44F4EEC8 /* PocketSession.swift in Sources */,
+				5656CC6511477C4ABD38F0B6 /* PortalManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

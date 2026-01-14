@@ -24,6 +24,13 @@ final class DropZoneManager: ObservableObject {
     /// Drop zone frame in global coordinates
     @Published var dropZoneFrame: CGRect = .zero
 
+    // 2.0: For intent prediction
+    /// Last detected item type during drag
+    @Published var lastDetectedType: PocketItem.ItemType?
+
+    /// Cache of last processed items for prediction execution
+    private var lastProcessedItems: [PocketItem] = []
+
     // MARK: - Configuration
 
     /// Supported drop types
@@ -91,6 +98,44 @@ final class DropZoneManager: ObservableObject {
         isHovering = false
         hoverProximity = 0
         currentDragItem = nil
+        lastDetectedType = nil
+    }
+
+    // 2.0: Get cached items for prediction execution
+    func getLastProcessedItems() async -> [PocketItem] {
+        return lastProcessedItems
+    }
+
+    /// Detect item type from providers (for prediction before drop)
+    func detectType(from providers: [NSItemProvider]) {
+        for provider in providers {
+            if provider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
+                lastDetectedType = .image
+                return
+            }
+            if provider.hasItemConformingToTypeIdentifier(UTType.pdf.identifier) {
+                lastDetectedType = .document
+                return
+            }
+            if provider.hasItemConformingToTypeIdentifier(UTType.url.identifier) {
+                lastDetectedType = .link
+                return
+            }
+            if provider.hasItemConformingToTypeIdentifier(UTType.audio.identifier) {
+                lastDetectedType = .audio
+                return
+            }
+            if provider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) ||
+               provider.hasItemConformingToTypeIdentifier(UTType.video.identifier) {
+                lastDetectedType = .video
+                return
+            }
+            if provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier) {
+                lastDetectedType = .text
+                return
+            }
+        }
+        lastDetectedType = .document  // Default
     }
 
     /// Calculate hover proximity based on drag location
@@ -118,6 +163,10 @@ final class DropZoneManager: ObservableObject {
     /// Process incoming drop data
     func processDropData(_ providers: [NSItemProvider]) async -> [PocketItem] {
         print("🔄 [DropZoneManager] processDropData called with \(providers.count) providers")
+
+        // 2.0: Detect type first for predictions
+        detectType(from: providers)
+
         var items: [PocketItem] = []
 
         for (index, provider) in providers.enumerated() {
@@ -130,6 +179,9 @@ final class DropZoneManager: ObservableObject {
                 print("🔄 [DropZoneManager] Failed to load item from provider \(index)")
             }
         }
+
+        // 2.0: Cache items for prediction execution
+        lastProcessedItems = items
 
         print("🔄 [DropZoneManager] Total items loaded: \(items.count)")
         return items
